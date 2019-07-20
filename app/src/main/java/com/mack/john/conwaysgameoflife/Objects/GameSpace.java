@@ -1,5 +1,7 @@
 package com.mack.john.conwaysgameoflife.Objects;
 
+import java.util.Random;
+
 public class GameSpace {
 
 
@@ -22,6 +24,24 @@ public class GameSpace {
 
 
     // Custom methods
+    // Custom method to generate board with randomly alive cells
+    private void generateBoard() {
+        // Track randomly generated boolean values
+        Random randomIsAlive = new Random();
+
+        // Loop through each x positio on the board
+        for(int xPosition = 0; xPosition < boardWidth; xPosition ++) {
+
+            // Loop through each y position on the board
+            for(int yPosition = 0; yPosition < boardHeight; yPosition ++) {
+
+                // Generate new randomly alive/dead cell at current x,y position
+                gameBoard[xPosition][yPosition] = new Cell(xPosition, yPosition, randomIsAlive.nextBoolean());
+            }
+        }
+    }
+
+    // Custom method to count number of living neighbors for current cell
     public int countAliveNeighbors(Cell cell) {
         int aliveNeighborCount = 0;
 
