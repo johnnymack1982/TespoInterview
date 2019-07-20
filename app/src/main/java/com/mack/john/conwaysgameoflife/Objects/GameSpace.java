@@ -1,5 +1,7 @@
 package com.mack.john.conwaysgameoflife.Objects;
 
+import android.widget.GridView;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -13,13 +15,16 @@ public class GameSpace {
 
     Cell[][] gameBoard;
 
+    GridView visualBoard;
+
 
 
     // Constructor
-    public GameSpace(int boardWidth, int boardHeight) {
+    public GameSpace(int boardWidth, int boardHeight, GridView visualBoard) {
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
         this.gameBoard = new Cell[boardWidth][boardHeight];
+        this.visualBoard = visualBoard;
 
         generateBoard();
     }
@@ -29,6 +34,7 @@ public class GameSpace {
     // Custom methods
     // Custom method to generate board with randomly alive cells
     private void generateBoard() {
+
         // Track randomly generated boolean values
         Random randomIsAlive = new Random();
 
