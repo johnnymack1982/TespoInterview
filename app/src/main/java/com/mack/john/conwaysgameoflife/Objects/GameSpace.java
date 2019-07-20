@@ -147,6 +147,14 @@ public class GameSpace {
 
     // Custom method to toggle cells according to game rules
     private void toggleCells(ArrayList<Cell> livingCells, ArrayList<Cell> deadCells) {
+        // Toggle living cells
+        for(Cell currentCell: livingCells) {
+            currentCell.setAlive(true);
+        }
 
+        // Toggle dead cells
+        for(Cell currentCell: deadCells) {
+            currentCell.setAlive(false);
+        }
     }
 }
