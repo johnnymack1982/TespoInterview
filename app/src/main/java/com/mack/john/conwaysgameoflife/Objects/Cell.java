@@ -5,10 +5,10 @@ public class Cell {
 
 
     // Class properties
-    int xPosition;
-    int yPosition;
+    private int xPosition;
+    private int yPosition;
 
-    boolean isAlive;
+    private boolean isAlive;
 
 
 
