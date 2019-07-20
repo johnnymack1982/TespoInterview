@@ -5,9 +5,20 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
+
+
+    // Class properties
+
+
+
+    // System generated methods
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
+
+
+
+    // Custom methods
 }

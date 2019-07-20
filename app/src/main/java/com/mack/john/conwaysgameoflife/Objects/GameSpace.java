@@ -32,7 +32,7 @@ public class GameSpace {
         // Track randomly generated boolean values
         Random randomIsAlive = new Random();
 
-        // Loop through each x positio on the board
+        // Loop through each x position on the board
         for(int xPosition = 0; xPosition < boardWidth; xPosition ++) {
 
             // Loop through each y position on the board
