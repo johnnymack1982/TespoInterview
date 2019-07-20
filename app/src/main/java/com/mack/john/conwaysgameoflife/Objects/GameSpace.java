@@ -1,6 +1,9 @@
 package com.mack.john.conwaysgameoflife.Objects;
 
+import android.content.Context;
 import android.widget.GridView;
+
+import com.mack.john.conwaysgameoflife.Adapters.CellAdapter;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -17,14 +20,17 @@ public class GameSpace {
 
     GridView visualBoard;
 
+    Context context;
+
 
 
     // Constructor
-    public GameSpace(int boardWidth, int boardHeight, GridView visualBoard) {
+    public GameSpace(int boardWidth, int boardHeight, GridView visualBoard, Context context) {
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
         this.gameBoard = new Cell[boardWidth][boardHeight];
         this.visualBoard = visualBoard;
+        this.context = context;
 
         generateBoard();
     }
@@ -48,6 +54,9 @@ public class GameSpace {
                 gameBoard[xPosition][yPosition] = new Cell(xPosition, yPosition, randomIsAlive.nextBoolean());
             }
         }
+
+        CellAdapter cellAdapter = new CellAdapter(context, gameBoard, boardWidth, boardHeight);
+        visualBoard.setAdapter(cellAdapter);
     }
 
     // Custom method to count number of living neighbors for current cell
@@ -60,7 +69,7 @@ public class GameSpace {
         }
 
         // Check to see if cell to the right is alive ONLY if a cell exists to the right
-        if(cell.getxPosition() != boardWidth && gameBoard[cell.getxPosition() + 1][cell.getyPosition()].isAlive()) {
+        if(cell.getxPosition() != boardWidth - 1 && gameBoard[cell.getxPosition() + 1][cell.getyPosition()].isAlive()) {
             aliveNeighborCount ++;
         }
 
@@ -70,7 +79,7 @@ public class GameSpace {
         }
 
         // Check to see if cell below is alive ONLY if a cell exists below
-        if(cell.getyPosition() != boardHeight && gameBoard[cell.getxPosition()][cell.getyPosition() + 1].isAlive()) {
+        if(cell.getyPosition() != boardHeight - 1 && gameBoard[cell.getxPosition()][cell.getyPosition() + 1].isAlive()) {
             aliveNeighborCount ++;
         }
 
@@ -80,21 +89,21 @@ public class GameSpace {
         }
 
         // Check to see if cell below and to the left is alive ONLY if a cell exists at the position in question
-        if(cell.getxPosition() > 0 && cell.getyPosition() != boardHeight &&
+        if(cell.getxPosition() > 0 && cell.getyPosition() != boardHeight - 1 &&
                 gameBoard[cell.getxPosition() - 1][cell.getyPosition() + 1].isAlive()) {
 
             aliveNeighborCount ++;
         }
 
         // Check to see if cell above and to the right is alive ONLY if a cell exists at the position in question
-        if(cell.getxPosition() != boardWidth && cell.getyPosition() > 0 &&
+        if(cell.getxPosition() != boardWidth - 1 && cell.getyPosition() > 0 &&
                 gameBoard[cell.getxPosition() + 1][cell.getyPosition() - 1].isAlive()) {
 
             aliveNeighborCount ++;
         }
 
         // Check to see if cell below and to the right is alive ONLY if a cell exists at the position in question
-        if(cell.getxPosition() != boardWidth && cell.getyPosition() != boardHeight &&
+        if(cell.getxPosition() != boardWidth - 1 && cell.getyPosition() != boardHeight - 1 &&
                 gameBoard[cell.getxPosition() + 1][cell.getyPosition() + 1].isAlive()) {
 
             aliveNeighborCount ++;
@@ -162,5 +171,8 @@ public class GameSpace {
         for(Cell currentCell: deadCells) {
             currentCell.setAlive(false);
         }
+
+        CellAdapter cellAdapter = new CellAdapter(context, gameBoard, boardWidth, boardHeight);
+        visualBoard.setAdapter(cellAdapter);
     }
 }
