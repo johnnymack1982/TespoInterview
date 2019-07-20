@@ -1,5 +1,6 @@
 package com.mack.john.conwaysgameoflife.Objects;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GameSpace {
@@ -19,6 +20,8 @@ public class GameSpace {
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
         this.gameBoard = new Cell[boardWidth][boardHeight];
+
+        generateBoard();
     }
 
 
@@ -93,5 +96,57 @@ public class GameSpace {
 
         // Return number of alive neighbors
         return aliveNeighborCount;
+
+
+
+        // NOTE: This could also potentially be accomplished by looping through the surrounding x, y positions for the current cell
+        // Time permitting, I will experiment with this alternate solution
+    }
+
+    public void generateNextTurn() {
+        ArrayList<Cell> livingCells = new ArrayList<>();
+        ArrayList<Cell> deadCells = new ArrayList<>();
+
+        // Loop through x positions on the board
+        for(int xPosition = 0; xPosition < boardWidth; xPosition ++) {
+
+            // Loop through y positions on the board
+            for(int yPosition = 0; yPosition < boardHeight; yPosition ++) {
+
+                // Reference the cell at the current x,y positio
+                Cell currentCell = gameBoard[xPosition][yPosition];
+
+                // Call custom method to count number of living neighbors for current cell
+                int livingNeighbors = countAliveNeighbors(currentCell);
+
+                // Any live cell with fewer than two live neighbors dies, as if caused by underpopulation
+                if(currentCell.isAlive() && livingNeighbors < 2) {
+                    deadCells.add(currentCell);
+                }
+
+                // Any live cell with two or three live neighbors lives on to the next generation
+                else if(currentCell.isAlive() && (livingNeighbors == 2 || livingNeighbors == 3)) {
+                    livingCells.add(currentCell);
+                }
+
+                // Any live cell with more than three live neighbors dies, as if by overpopulation
+                else if(currentCell.isAlive() && livingNeighbors > 3) {
+                    deadCells.add(currentCell);
+                }
+
+                // Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction
+                else if(!currentCell.isAlive() && livingNeighbors == 3) {
+                    livingCells.add(currentCell);
+                }
+            }
+        }
+
+        // Call custom method to toggle cells according to game rules
+        toggleCells(livingCells, deadCells);
+    }
+
+    // Custom method to toggle cells according to game rules
+    private void toggleCells(ArrayList<Cell> livingCells, ArrayList<Cell> deadCells) {
+
     }
 }
